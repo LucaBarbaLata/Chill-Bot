@@ -20,9 +20,20 @@ import json
 from pytube import YouTube
 
 
+
+
+
+
+
+
+
+
+
+
 client = discord.Client()
 client = commands.Bot(command_prefix = '.')
 
+messagecounts = {}
 
 global count
 count = 1
@@ -44,6 +55,9 @@ async def on_ready():
   
 @client.event
 async def on_message(message):
+    if message.guild.id not in messagecounts.keys():
+        messagecounts[message.guild.id] = 0
+    messagecounts[message.guild.id] += 1
     username = str(message.author).split('#')[0]
     user_message = str(message.content)
     channel = str(message.channel.name)
@@ -54,9 +68,19 @@ async def on_message(message):
     if message.author == client.user:
         return
     if message.channel.name == '🍓general':
-        if user_message.lower() == 'hello':
+        if "discord.gg" in message.content.lower():
+           await message.delete()
+           await message.channel.send("Don't advertise your server!")
+           await client.process_commands(message)
+        elif user_message.lower() == 'hello':
             await message.reply(f'Hello {username}!')
             return
+        elif user_message.lower() == ".serverstats":
+          embed=discord.Embed(title=f"Server info:  {message.guild.name}")
+          embed.add_field(name="Users:", value=message.guild.member_count, inline=False)
+          embed.add_field(name="Channels:", value=len(message.guild.channels), inline=False)
+          embed.add_field(name="Messages sent:", value=messagecounts[message.guild.id], inline=False)
+          await message.channel.send(embed=embed)
         elif user_message.lower() == '.profile':
           name = message.author
           await message.channel.send(name)
@@ -111,57 +135,68 @@ async def on_message(message):
             await message.channel.send(res)
             with open("count.txt", "w") as f:
               f.write(str(count))
-        elif user_message.lower() == 'ass':
+        elif "ass" in message.content.lower():
+            badmessage = message.content.lower()
             await message.reply(f"Dont use that word! {username}")
             await message.delete()
             channel = client.get_channel(961644384481316875)
             embed=discord.Embed(title="Bad Word Detected!", description="BadWord detected in <#961633965394001953>", color=0xbd0000)
             embed.add_field(name="KeyWord:", value="ass", inline=True)
             embed.add_field(name="Author:", value=message.author.mention, inline=True)
+            embed.add_field(name="Message:", value=badmessage, inline=False)
             await channel.send(embed=embed)
             help = '<@&961642369592197140> <@&964548735260565535>'
             await channel.send(help)
-        elif user_message.lower() == 'sex':
+        elif "sex" in message.content.lower():
+            badmessage = message.content.lower()
             await message.reply(f"Dont use that word! {username}")
             await message.delete()
             channel = client.get_channel(961644384481316875)
             embed=discord.Embed(title="Bad Word Detected!", description="BadWord detected in <#961633965394001953>", color=0xbd0000)
             embed.add_field(name="KeyWord:", value="sex", inline=True)
             embed.add_field(name="Author:", value=message.author.mention, inline=True)
+            embed.add_field(name="Message:", value=badmessage, inline=False)
             await channel.send(embed=embed)
             help = '<@&961642369592197140> <@&964548735260565535>'
             await channel.send(help)
-        elif user_message.lower() == 'fuck':
+        elif "fuck" in message.content.lower():
+            badmessage = message.content.lower()
             await message.reply(f"Dont use that word! {username}")
             await message.delete()
             channel = client.get_channel(961644384481316875)
             embed=discord.Embed(title="Bad Word Detected!", description="BadWord detected in <#961633965394001953>", color=0xbd0000)
             embed.add_field(name="KeyWord:", value="fuck", inline=True)
             embed.add_field(name="Author:", value=message.author.mention, inline=True)
+            embed.add_field(name="Message:", value=badmessage, inline=False)
             await channel.send(embed=embed)
             help = '<@&961642369592197140> <@&964548735260565535>'
             await channel.send(help)
-        elif user_message.lower() == 'gay':
+        elif "gay" in message.content.lower():
+            badmessage = message.content.lower()
             await message.reply(f"Dont use that word! {username}")
             await message.delete()
             channel = client.get_channel(961644384481316875)
             embed=discord.Embed(title="Bad Word Detected!", description="BadWord detected in <#961633965394001953>", color=0xbd0000)
             embed.add_field(name="KeyWord:", value="gay", inline=True)
             embed.add_field(name="Author:", value=message.author.mention, inline=True)
+            embed.add_field(name="Message:", value=badmessage, inline=False)
             await channel.send(embed=embed)
             help = '<@&961642369592197140> <@&964548735260565535>'
             await channel.send(help)
-        elif user_message.lower() == 'nigga':
+        elif "nigga" in message.content.lower():
+            badmessage = message.content.lower()
             await message.reply(f"Dont use that word! {username}")
             await message.delete()
             channel = client.get_channel(961644384481316875)
             embed=discord.Embed(title="Bad Word Detected!", description="BadWord detected in <#961633965394001953>", color=0xbd0000)
             embed.add_field(name="KeyWord:", value="nigga", inline=True)
             embed.add_field(name="Author:", value=message.author.mention, inline=True)
+            embed.add_field(name="Message:", value=badmessage, inline=False)
             await channel.send(embed=embed)
             help = '<@&961642369592197140> <@&964548735260565535>'
             await channel.send(help)
-        elif user_message.lower() == 'dick':
+        elif "dick" in message.content.lower():
+            badmessage = message.content.lower()
             await message.reply(f"Dont use that word! {username}")
             await message.delete()
             channel = client.get_channel(961644384481316875)
@@ -171,23 +206,26 @@ async def on_message(message):
             await channel.send(embed=embed)
             help = '<@&961642369592197140> <@&964548735260565535>'
             await channel.send(help)
-        elif user_message.lower() == 'bitch':
+        elif "bitch" in message.content.lower():
             await message.reply(f"Dont use that word! {username}")
             await message.delete()
             channel = client.get_channel(961644384481316875)
             embed=discord.Embed(title="Bad Word Detected!", description="BadWord detected in <#961633965394001953>", color=0xbd0000)
             embed.add_field(name="KeyWord:", value="bitch", inline=True)
             embed.add_field(name="Author:", value=message.author.mention, inline=True)
+            embed.add_field(name="Message:", value=badmessage, inline=False)
             await channel.send(embed=embed)
             help = '<@&961642369592197140> <@&964548735260565535>'
             await channel.send(help)
-        elif user_message.lower() == 'ass':
+        elif "stfu" in message.content.lower():
+            badmessage = message.content.lower()
             await message.reply(f"Dont use that word! {username}")
             await message.delete()
             channel = client.get_channel(961644384481316875)
             embed=discord.Embed(title="Bad Word Detected!", description="BadWord detected in <#961633965394001953>", color=0xbd0000)
-            embed.add_field(name="KeyWord:", value="ass", inline=True)
+            embed.add_field(name="KeyWord:", value="stfu", inline=True)
             embed.add_field(name="Author:", value=message.author.mention, inline=True)
+            embed.add_field(name="Message:", value=badmessage, inline=False)
             await channel.send(embed=embed)
             help = '<@&961642369592197140> <@&964548735260565535>'
             await channel.send(help)
@@ -268,6 +306,34 @@ async def on_message(message):
            data = json.loads(content,)
            meme = discord.Embed(title=f"{data['title']}", Color = discord.Color.random()).set_image(url=f"{data['url']}")
            await message.reply(embed=meme)
+    if message.channel.name == '🖌fanart':
+      if user_message.lower() == '.submit':
+          
+          embed=discord.Embed(title="**Rate:**", color=0x0033ff)
+          embed.add_field(name="1️⃣ 1/10", value="1", inline=False)
+          embed.add_field(name="2️⃣ 2/10", value="2", inline=False)
+          embed.add_field(name="3️⃣ 3/10", value="3", inline=False)
+          embed.add_field(name="4️⃣ 4/10", value="4", inline=False)
+          embed.add_field(name="5️⃣ 5/10", value="5", inline=False)
+          embed.add_field(name="6️⃣ 6/10", value="6", inline=False)
+          embed.add_field(name="7️⃣ 7/10", value="7", inline=False)
+          embed.add_field(name="8️⃣ 8/10", value="8", inline=False)
+          embed.add_field(name="9️⃣ 9/10", value="9", inline=False)
+          embed.add_field(name="🔟 10/10", value="10", inline=False)
+          embed.set_footer(text=f"Art by: {message.author}")
+          counting_stars = await message.channel.send(embed=embed)
+          await counting_stars.add_reaction("1️⃣")
+          await counting_stars.add_reaction("2️⃣")
+          await counting_stars.add_reaction("3️⃣")
+          await counting_stars.add_reaction("4️⃣")
+          await counting_stars.add_reaction("5️⃣")
+          await counting_stars.add_reaction("6️⃣")
+          await counting_stars.add_reaction("7️⃣")
+          await counting_stars.add_reaction("8️⃣")
+          await counting_stars.add_reaction("9️⃣")
+          await counting_stars.add_reaction("🔟")
+          ping = "<@&1000499859620626626>"
+          await message.channel.send(ping)
     if message.channel.name == 'test':
       if user_message.lower() == 'ass':
           await message.reply(f"Dont use that word! {username}")
@@ -294,6 +360,11 @@ async def on_message(message):
           await message.channel.send(RV)
           await message.channel.send(song)
           return
+
+
+@client.command(aliases=['8ball'])
+async def _8ball(ctx, *, q):
+  responses = ['yes', 'no', 'maybe', '...', 'problably not', 'ok']
+  await ctx.send(f'Question: {q}\n Answer: {random.choice(responses)}')
 keep_alive.keep_alive()
 client.run(TOKEN)
-
